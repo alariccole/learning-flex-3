@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	applicationComplete="contactsService.send()" 
+	layout="absolute" xmlns:fx="com.oreilly.learningflex.*" 
+	currentState="{contactsDataGrid.selectedItem?'details':''}" viewSourceURL="srcview/index.html">
+
+<!-- The new state code -->
+
+	<mx:states>
+<!-- The "Details" state, showing the contact details in a read-only mode -->
+		<mx:State name="details">
+			<mx:AddChild position="lastChild">
+				<mx:Panel id="contactDetails"
+					layout="vertical" 
+					x="318" 
+					y="10"
+					paddingLeft="5"
+					paddingRight="5"
+					paddingTop="5"
+					paddingBottom="5"    
+					title="Contact Details">
+					
+					<mx:HBox borderColor="#4E94C6" id="hbox1">
+						
+						<mx:Label id="nameLabel" 
+							text="{contactsDataGrid.selectedItem.firstName} {contactsDataGrid.selectedItem.lastName}" 
+							fontWeight="bold" 
+							fontSize="14"/>
+							
+					</mx:HBox>
+					
+					<mx:Label id="emailLabel"
+						text="Email: {contactsDataGrid.selectedItem.email}"/>
+									
+					<mx:Label id="phoneLabel" 
+						text="{contactsDataGrid.selectedItem.phoneType}: {phoneFormatter.format(contactsDataGrid.selectedItem.phone)}"
+						visible="{contactsDataGrid.selectedItem.phone}"
+						includeInLayout="{contactsDataGrid.selectedItem.phone}"/> 
+						
+					<mx:Text id="addressText"
+						text="Address: {contactsDataGrid.selectedItem.address}" />
+						
+					<mx:Label id="zipLabel"
+						text="Zip Code: {contactsDataGrid.selectedItem.zip}" />
+					
+					<mx:Canvas 
+						width="60" 
+						height="60" 
+						backgroundColor="{contactsDataGrid.selectedItem.color}"
+						visible="{contactsDataGrid.selectedItem.color}" id="canvas1"/>
+						
+						<mx:ControlBar id="controlbar1">
+								<mx:Button label="Edit" id="EditAndSaveButton" click="currentState='edit'"/>
+						</mx:ControlBar>
+				
+				</mx:Panel>
+			</mx:AddChild>
+		</mx:State>
+
+<!-- The "Edit" state, which shows a form that can be used to modify the contact  -->		
+		<mx:State name="edit" basedOn="details">
+			<mx:SetProperty target="{contactDetails}" name="title" value="Contact Editor"/>
+			<mx:SetProperty target="{EditAndSaveButton}" name="label" value="Save"/>
+			<mx:RemoveChild target="{nameLabel}"/>
+			<mx:RemoveChild target="{phoneLabel}"/>
+			<mx:RemoveChild target="{addressText}"/>
+			<mx:RemoveChild target="{zipLabel}"/>
+			<mx:RemoveChild target="{emailLabel}"/>
+			<mx:RemoveChild target="{canvas1}"/>
+			<mx:RemoveChild target="{hbox1}"/>
+			<mx:AddChild relativeTo="{controlbar1}" position="before">
+				<mx:Form id="contactEditor">
+					<mx:FormItem 
+						label="First Name" 
+						required="true">
+						<mx:TextInput id="firstNameTextInput"
+							restrict="a-z A-Z ' \-" text="{contactsDataGrid.selectedItem.firstName}" />
+					</mx:FormItem>
+					<mx:FormItem 
+						label="Last Name">
+						<mx:TextInput id="lastNameTextInput" 
+							restrict="a-z A-Z ' \-" text="{contactsDataGrid.selectedItem.lastName}"/>
+					</mx:FormItem>
+					<mx:HRule 
+						height="22" 
+						width="100%"/>
+					<mx:FormItem 
+						label="Email" 
+						required="true">
+						<mx:TextInput id="emailTextInput" text="{contactsDataGrid.selectedItem.email}"/>
+					</mx:FormItem>
+					<mx:FormItem 
+						label="Phone">
+						<mx:TextInput id="phoneTextInput">
+							<mx:text>{phoneFormatter.format(contactsDataGrid.selectedItem.phone)}</mx:text>
+						</mx:TextInput>
+							
+						<mx:RadioButtonGroup id="phoneRadioButtonGroup" 
+							selectedValue="{contactsDataGrid.selectedItem.phoneType}" />
+							
+						<mx:HBox>
+							<mx:RadioButton 
+								label="mobile" 
+								groupName="phoneRadioButtonGroup" 
+								selected="true"/>
+							<mx:RadioButton 
+								label="home" 
+								groupName="phoneRadioButtonGroup"/>
+							<mx:RadioButton 
+								label="other" 
+								groupName="phoneRadioButtonGroup"/>
+							
+						</mx:HBox>
+					</mx:FormItem>
+					<mx:FormItem 
+						label="Address">
+						<mx:TextArea id="addressTextArea" text="{contactsDataGrid.selectedItem.address}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Zip">
+						<mx:TextInput id="zipCodeTextInput" text="{contactsDataGrid.selectedItem.zip}"/>
+					</mx:FormItem>
+					<mx:HRule 
+						height="22" 
+						width="100%"/>
+					<mx:FormItem 
+						label="Birthday">
+						<mx:DateField id="birthdayDateField"
+							editable="true" 
+							selectedDate="{getDate(contactsDataGrid.selectedItem.birthday)}"/>
+					</mx:FormItem>
+					<mx:FormItem 
+						label="Favorite Color">
+						<mx:ColorPicker id="favoriteColorPicker"
+							selectedColor="{contactsDataGrid.selectedItem.color}"/>
+					</mx:FormItem>
+					<mx:FormItem>
+						<mx:CheckBox id="companyCheckBox" 
+							label="Company" 
+							selected="{contactsDataGrid.selectedItem.company.contains('true')}"  />
+					</mx:FormItem>
+				</mx:Form>
+			</mx:AddChild>
+			<mx:SetEventHandler target="{EditAndSaveButton}" name="click" handler="currentState='details'"/>
+		</mx:State>
+	</mx:states>
+	
+<mx:Script>
+	<![CDATA[
+		import mx.validators.Validator;
+		import mx.validators.ZipCodeValidatorDomainType;
+		import mx.events.ValidationResultEvent;
+		import mx.controls.Alert;
+		
+		private function validateAndSubmit():void           
+	    {
+			var validators:Array = [firstNameValidator, lastNameValidator, emailValidator, phoneValidator, zipCodeValidator];
+			var errors:Array = Validator.validateAll(validators);
+			var errorMessages:Array = [];
+			
+			if(errors.length > 0)
+			{
+		
+				for each (var error:ValidationResultEvent in errors) 
+				{
+					var errorField:String = FormItem(error.currentTarget.source.parent).label;
+					errorMessages.push(errorField + ": " + error.message);
+				}
+				
+				Alert.show(errorMessages.join("\n\n"), "There were problems with your form.");
+		 	}
+			        
+		        //Here we could invoke other validators, or submit to a server
+		} 
+		
+		private function calculateAge(birthDate:Date):Number
+		{
+			var today:Date = new Date();
+			var ageDate:Date = new Date(today.time - birthDate.time);
+			var age:Number = ageDate.fullYear - 1970;
+			return age;
+		}
+		
+
+		private function getDate(value:String):Date
+		{
+			if(!value) return null;
+			
+			var date:Date = new Date();
+			
+			date.time = Date.parse(value);
+			
+			return date;
+		} 
+	]]>
+</mx:Script>
+
+<mx:HTTPService id="contactsService" 
+	resultFormat="e4x"
+	showBusyCursor="true" 
+	url="http://greenlike.com/flex/learning/projects/contactmanager/contacts.xml" />
+
+<!--Validators-->
+<mx:StringValidator id="firstNameValidator"
+	source="{firstNameTextInput}" 
+	property="text"  
+	requiredFieldError="I'm sure you've got a name.&#13;Why not enter it here?"/>
+  
+<mx:StringValidator id="lastNameValidator"
+	source="{lastNameTextInput}" 
+	property="text"  
+	required="false" 
+	minLength="2" 
+	tooShortError="What kind of last name is that?"/>
+	
+<mx:EmailValidator id="emailValidator" 
+    source="{emailTextInput}" 
+    property="text"
+    requiredFieldError="Please enter your email.&#13;I promise not to send spam."/>
+
+<mx:PhoneNumberValidator id="phoneValidator" 
+	source="{phoneTextInput}"
+	property="text"
+	required="false" />
+	
+<mx:ZipCodeValidator id="zipCodeValidator"
+	source="{zipCodeTextInput}"
+	property="text" 
+	domain="{ZipCodeValidatorDomainType.US_OR_CANADA}"
+	required="false"/>
+	
+<mx:DateValidator id="dateValidator"
+	source="{birthdayDateField}"
+	property="selectedDate"
+	required="false"  />
+
+<!--Formatters-->
+<mx:PhoneFormatter id="phoneFormatter"/>
+
+<mx:DateFormatter id="dateFormatter"/>
+
+<mx:NumberFormatter id="numberFormatter"
+	rounding="down"/>
+
+<mx:DataGrid id="contactsDataGrid" dataProvider="{contactsService.lastResult.contact}" left="10" top="10" bottom="10" width="300">
+	<mx:columns>
+		<mx:DataGridColumn headerText="First" dataField="firstName"/>
+		<mx:DataGridColumn headerText="Last" dataField="lastName"/>
+	</mx:columns>
+</mx:DataGrid>
+
+</mx:Application>

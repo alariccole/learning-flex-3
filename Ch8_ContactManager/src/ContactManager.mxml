@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" viewSourceURL="srcview/index.html">
+	
+<mx:Form>
+	<mx:FormHeading 
+		label="Contact Editor"/>
+	<mx:FormItem 
+		label="First Name">
+		<mx:TextInput id="firstNameTextInput"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Last Name">
+		<mx:TextInput id="lastNameTextInput"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Age">
+		<mx:NumericStepper id="ageNS" 
+			maximum="120" 
+			minimum="18" />
+	</mx:FormItem>
+	<mx:FormItem>
+		<mx:CheckBox id="dogsCheckBox" 
+			label="Likes Dogs" />
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Favorite Color">
+		<mx:ColorPicker id="favoriteColorPicker"/>
+	</mx:FormItem>
+</mx:Form>
+
+<mx:Form x="300">
+	<mx:FormHeading 
+		label="Contact Details"/>
+	<mx:FormItem 
+		label="Full Name">
+		<mx:Label 
+			text="{firstNameTextInput.text} {lastNameTextInput.text}"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Age">
+		<mx:Label 
+			text="{ageNS.value} years old"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Likes Dogs">
+		<mx:Label 
+			text="{dogsCheckBox.selected}"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Favorite Color">
+		<mx:Canvas 
+			width="60" 
+			height="60" 
+			backgroundColor="{favoriteColorPicker.selectedColor}"/>
+	</mx:FormItem>
+</mx:Form>
+
+</mx:Application>

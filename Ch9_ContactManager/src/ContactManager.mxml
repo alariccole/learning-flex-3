@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" viewSourceURL="srcview/index.html">
+<mx:Script>
+	<![CDATA[
+		import mx.validators.Validator;
+		import mx.validators.ZipCodeValidatorDomainType;
+		import mx.events.ValidationResultEvent;
+		import mx.controls.Alert;
+		
+		private function validateAndSubmit():void           
+	    {
+			var validators:Array = [firstNameValidator, lastNameValidator, emailValidator, phoneValidator, zipCodeValidator];
+			var errors:Array = Validator.validateAll(validators);
+			var errorMessages:Array = [];
+			
+			if(errors.length > 0)
+			{
+		
+				for each (var error:ValidationResultEvent in errors) 
+				{
+					var errorField:String = FormItem(error.currentTarget.source.parent).label;
+					errorMessages.push(errorField + ": " + error.message);
+				}
+				
+				Alert.show(errorMessages.join("\n\n"), "There were problems with your form.");
+		 	}
+			        
+		        //Here we could invoke other validators, or submit to a server
+		} 
+		
+		private function calculateAge(birthDate:Date):Number
+		{
+			var today:Date = new Date();
+			var ageDate:Date = new Date(today.time - birthDate.time);
+			var age:Number = ageDate.fullYear - 1970;
+			return age;
+		}
+ 
+	]]>
+</mx:Script>
+
+<!--Validators-->
+<mx:StringValidator id="firstNameValidator"
+	source="{firstNameTextInput}" 
+	property="text"  
+	requiredFieldError="I'm sure you've got a name.&#13;Why not enter it here?"/>
+  
+<mx:StringValidator id="lastNameValidator"
+	source="{lastNameTextInput}" 
+	property="text"  
+	required="false" 
+	minLength="2" 
+	tooShortError="What kind of last name is that?"/>
+	
+<mx:EmailValidator id="emailValidator" 
+    source="{emailTextInput}" 
+    property="text"
+    requiredFieldError="Please enter your email.&#13;I promise not to send spam."/>
+
+<mx:PhoneNumberValidator id="phoneValidator" 
+	source="{phoneTextInput}"
+	property="text"
+	required="false" />
+	
+<mx:ZipCodeValidator id="zipCodeValidator"
+	source="{zipCodeTextInput}"
+	property="text" 
+	domain="{ZipCodeValidatorDomainType.US_OR_CANADA}"
+	required="false"/>
+	
+<mx:DateValidator id="dateValidator"
+	source="{birthdayDateField}"
+	property="selectedDate"
+	required="false"  />
+
+<!--Formatters-->
+<mx:PhoneFormatter id="phoneFormatter"/>
+
+<mx:DateFormatter id="dateFormatter"/>
+
+<mx:NumberFormatter id="numberFormatter"
+	rounding="down"/>
+
+<mx:Form id="contactEditor">
+	<mx:FormHeading 
+		label="Contact Editor"/>
+	<mx:FormItem 
+		label="First Name" 
+		required="true">
+		<mx:TextInput id="firstNameTextInput"
+			restrict="a-z A-Z ' \-"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Last Name">
+		<mx:TextInput id="lastNameTextInput" 
+			restrict="a-z A-Z ' \-"/>
+	</mx:FormItem>
+	<mx:HRule 
+		height="22" 
+		width="100%"/>
+	<mx:FormItem 
+		label="Email" 
+		required="true">
+		<mx:TextInput id="emailTextInput"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Phone">
+		<mx:TextInput id="phoneTextInput"/>
+			
+		<mx:RadioButtonGroup id="phoneRadioButtonGroup" />
+		
+		<mx:RadioButton 
+			label="mobile" 
+			groupName="phoneRadioButtonGroup" 
+			selected="true"/>
+		<mx:RadioButton 
+			label="home" 
+			groupName="phoneRadioButtonGroup"/>
+		<mx:RadioButton 
+			label="other" 
+			groupName="phoneRadioButtonGroup"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Address">
+		<mx:TextArea id="addressTextArea"/>
+	</mx:FormItem>
+	<mx:FormItem label="Zip">
+		<mx:TextInput id="zipCodeTextInput"/>
+	</mx:FormItem>
+	<mx:HRule 
+		height="22" 
+		width="100%"/>
+	<mx:FormItem 
+		label="Birthday">
+		<mx:DateField id="birthdayDateField"
+			editable="true"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Favorite Color">
+		<mx:ColorPicker id="favoriteColorPicker"/>
+	</mx:FormItem>
+	<mx:FormItem>
+		<mx:CheckBox id="companyCheckBox" 
+			label="Company" />
+	</mx:FormItem>
+	<mx:FormItem>
+		<mx:Button label="Submit"
+			 id="submitButton"
+			 click="validateAndSubmit()"/>
+	</mx:FormItem>
+</mx:Form>
+<mx:Panel id="contactDetails"
+	layout="vertical" 
+	x="346" 
+	y="10"
+	paddingLeft="5"
+	paddingRight="5"
+	paddingTop="5"
+	paddingBottom="5"   
+	title="Contact Details">
+	<mx:Label 
+		text="Name:" 
+		fontWeight="bold"/>
+	<mx:Label 
+		text="{firstNameTextInput.text} {lastNameTextInput.text}"/>
+	<mx:Label 
+		text="Phone Number ( {phoneRadioButtonGroup.selectedValue} ):" 
+		fontWeight="bold"/>
+	<mx:Label 
+		text="{phoneFormatter.format(phoneTextInput.text)}"/>
+	<mx:Label 
+		text="Birthday:" 
+		fontWeight="bold"/>
+	<mx:Label 
+		text="{dateFormatter.format(birthdayDateField.selectedDate)}"/>
+	<mx:Label 
+		text="Age:" 
+		fontWeight="bold"/>
+	<mx:Label 
+		text="{numberFormatter.format(calculateAge(birthdayDateField.selectedDate))} years old"/>
+	<mx:Label 
+		text="Company:" 
+		fontWeight="bold"/>
+	<mx:Label 
+		text="{companyCheckBox.selected}"/>
+	<mx:Label 
+		text="Favorite Color:" 
+		fontWeight="bold"/>
+	<mx:Canvas 
+		width="60" 
+		height="60" 
+		backgroundColor="{favoriteColorPicker.selectedColor}"/>
+		
+</mx:Panel>
+<!--
+<mx:Form x="301">
+	<mx:FormHeading 
+		label="Contact Details"/>
+	<mx:FormItem 
+		label="Full Name">
+		<mx:Label 
+			text="{firstNameTextInput.text} {lastNameTextInput.text}"/>
+	</mx:FormItem>
+	<mx:HRule height="22" width="100%"/>
+	<mx:FormItem 
+		label="Age">
+		<mx:Label 
+			text="{ageNS.value} years old"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Likes Dogs">
+		<mx:Label 
+			text="{companyCheckBox.selected}"/>
+	</mx:FormItem>
+	<mx:FormItem 
+		label="Favorite Color">
+		<mx:Canvas 
+			width="60" 
+			height="60" 
+			backgroundColor="{favoriteColorPicker.selectedColor}"/>
+	</mx:FormItem>
+</mx:Form>-->
+	
+</mx:Application>

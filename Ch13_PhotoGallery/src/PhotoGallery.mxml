@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:filters="flash.filters.*"
+	layout="absolute" 
+	applicationComplete="service.send()"  viewSourceURL="srcview/index.html">
+	
+	<mx:HTTPService id="service"
+		url="photos.xml"
+		resultFormat="e4x" />
+	
+	<mx:TabNavigator 
+		width="250" 
+		left="10"
+		top="10" 
+		bottom="10" 
+		creationPolicy="all">
+		<mx:Canvas 
+			label="List View" 
+			width="100%" 
+			height="100%"
+			showEffect="Dissolve">
+			<mx:List id="photosList" 
+				dataProvider="{service.lastResult.photo}" 
+				width="100%" 
+				height="100%"
+				labelField="@title"
+				change="photosTileList.selectedIndex = photosList.selectedIndex">
+			</mx:List>
+		</mx:Canvas>
+		
+		<mx:Canvas 
+			label="Tile View" 	
+			width="100%" 
+			height="100%"
+			showEffect="Fade">
+			<mx:TileList id="photosTileList" 
+				dataProvider="{service.lastResult.photo}" 
+				width="100%"
+				height="100%" 
+				change="photosList.selectedIndex = photosTileList.selectedIndex" >
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:Image 
+							horizontalAlign="center" 
+							source="{data.@thumb}"
+							toolTip="{data.@title}"
+							width="100"
+							height="60" />
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:TileList>
+		</mx:Canvas>
+	
+	</mx:TabNavigator>
+		
+	<mx:Image id="image" 
+		source="{photosList.selectedItem.@image}" 
+		left="270" 
+		top="10" 
+		bottom="10" 
+		right="10"
+		horizontalAlign="center"
+		open="progressBar.visible = image2.visible = true"
+		complete="progressBar.visible = image2.visible = false" 
+		completeEffect="Fade"/>
+		
+	<mx:Image id="image2" 
+		source="{photosList.selectedItem.@thumb}" 
+		left="270" 
+		top="10" 
+		bottom="10" 
+		right="10"
+		horizontalAlign="center" 
+		hideEffect="Fade"
+		showEffect="Fade">
+
+	</mx:Image>
+	
+	<mx:ProgressBar id="progressBar"
+		x="270" 
+		y="10"
+		source="{image}" 
+		visible="false"
+		showEffect="Fade"
+		hideEffect="Fade"
+		label="" />
+
+</mx:Application>

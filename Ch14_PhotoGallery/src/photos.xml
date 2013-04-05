@@ -1,0 +1,34 @@
+<photos>
+	<photo
+		title="Yawning Camel"
+		thumb="http://www.greenlike.com/photogallery/camel_thumb.jpg" 
+		image="http://www.greenlike.com/photogallery/camel.jpg" />
+	<photo
+		title="Crowdy Head Lighthouse" 
+		thumb="http://www.greenlike.com/photogallery/lighthouse_thumb.jpg"
+		image="http://www.greenlike.com/photogallery/lighthouse.jpg" />
+	<photo
+		title="Sun Shade"
+		thumb="http://www.greenlike.com/photogallery/sunshade_thumb.jpg" 
+		image="http://www.greenlike.com/photogallery/sunshade.jpg" />
+	<photo
+		title="Uluru" 
+		thumb="http://www.greenlike.com/photogallery/uluru_thumb.jpg"
+		image="http://www.greenlike.com/photogallery/uluru.jpg" />
+	<photo
+		title="Devil's Marbles"
+		thumb="http://www.greenlike.com/photogallery/marble_thumb.jpg" 
+		image="http://www.greenlike.com/photogallery/marble.jpg" />
+	<photo
+		title="Mother and Child" 
+		thumb="http://www.greenlike.com/photogallery/mother_thumb.jpg"
+		image="http://www.greenlike.com/photogallery/mother.jpg" />
+	<photo
+		title="Karnak Temple"
+		thumb="http://www.greenlike.com/photogallery/temple_thumb.jpg" 
+		image="http://www.greenlike.com/photogallery/temple.jpg" />
+	<photo
+		title="Contemplating the Purchase" 
+		thumb="http://www.greenlike.com/photogallery/purchase_thumb.jpg"
+		image="http://www.greenlike.com/photogallery/purchase.jpg" />
+</photos>

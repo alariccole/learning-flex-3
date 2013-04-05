@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  viewSourceURL="srcview/index.html"
+        layout="horizontal">
+	<mx:Panel 
+		layout="horizontal" 
+		width="300" 
+		height="250" 
+		paddingLeft="10" 
+		title="Horizontal Panel with horizontalGap=&quot;20&quot;" 
+		horizontalGap="20">
+		<mx:Button label="Button"/>
+		<mx:Button label="Button"/>
+		<mx:Button label="Button"/>
+	</mx:Panel>
+	
+	<mx:Panel 
+		layout="vertical" 
+		width="300" 
+		height="250" 
+		title="Vertical Panel with verticalGap=&quot;20&quot;" 
+		paddingTop="10" 
+		verticalGap="20">
+		<mx:Button label="Button"/>
+		<mx:Button label="Button"/>
+		<mx:Button label="Button"/>
+	</mx:Panel>
+
+</mx:Application>

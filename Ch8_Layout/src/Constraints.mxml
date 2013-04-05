@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  viewSourceURL="srcview/index.html"
+	layout="absolute">
+       
+	<!-- Create two columns, one from the left edge until 200 pixels,
+		 Another from 200 until the far right edge
+	-->
+	<mx:constraintColumns>
+		<mx:ConstraintColumn id="col1" width="200" />
+		<mx:ConstraintColumn id="col2" width="100%" />
+	</mx:constraintColumns>
+	
+	<!-- Create two rows, one from the top edge until 100 pixels,
+		 Another from 100 until the bottom
+	-->
+	<mx:constraintRows>
+		<mx:ConstraintRow id="row1" height="100"/>
+		<mx:ConstraintRow id="row2" height="100%"/>
+	</mx:constraintRows>
+	
+	<!-- Use VRules and HRules ot map the locations of the 
+		 constraint rows and columns
+	-->
+	<mx:VRule height="100%" left="col1:0" />
+	<mx:VRule height="100%" left="col2:0" /> 
+	   
+	<mx:HRule width="100%" top="row1:0" />
+	<mx:HRule width="100%" top="row2:0" />
+
+	<!-- Place Buttons in a grid layout -->
+	<mx:Button 
+		label="column 1, row 1" 
+		left="col1:5" 
+		right="col1:5"  
+		top="row1:5"
+		bottom="row1:5"/>
+		
+	<mx:Button 
+		label="column 1, row 2" 
+		left="col1:5" 
+		right="col1:5"  
+		top="row2:5"
+		bottom="row2:5"/>
+	
+	<mx:Button 
+		label="column 2, row 1" 
+		left="col2:5" 
+		right="col2:5"  
+		top="row1:5"
+		bottom="row1:5"/>
+            
+	<mx:Button 
+		label="column 2, row 2" 
+		left="col2:5" 
+		right="col2:5"  
+		top="row2:5"
+		bottom="row2:5"/>
+    
+</mx:Application>

@@ -1,0 +1,67 @@
+<contacts>
+    <contact id="0">
+        <firstName>Alaric</firstName>
+        <lastName>Cole</lastName>
+        <email>alaric@oreilly.com</email>
+        <phone>4155558273</phone>
+        <phoneType>mobile</phoneType>
+        <address>555 Green St</address>
+        <zip>94001</zip>
+        <birthday>07/20/1979</birthday>
+        <color>0x00FF00</color>
+        <company>false</company>
+    </contact>
+    <contact id="1">
+        <firstName>O'Reilly</firstName>
+        <lastName>Media</lastName>
+        <email>booktech@oreilly.com</email>
+        <phone>7078277000</phone>
+        <phoneType>home</phoneType>
+        <address>1005 Gravenstein Highway North, Sebastopol, CA</address>
+        <zip>95472</zip>
+        <birthday>07/20/1978</birthday>
+        <color>0x009999</color>
+        <company>true</company>
+    </contact>
+    <contact id="2">
+        <firstName>Crystal</firstName>
+        <lastName>Clear</lastName>
+        <email>crystal4354@hotmail.com</email>
+        <phone>5015556492</phone>
+        <phoneType>mobile</phoneType>
+        <address>555 Lakeview Dr</address>
+        <zip>94001</zip>
+        <birthday>3/6/1975</birthday>
+        <color>0xFF66CC</color>
+        <company>false</company>
+    </contact>
+    <contact id="3">
+        <firstName>Google</firstName>
+        <email>google@gmail.com</email>
+        <phone>6502530000</phone>
+        <phoneType>home</phoneType>
+        <address>1600 Amphitheatre Parkway, Mountain View, CA</address>
+        <zip>94043</zip>
+        <color>0xFF0000</color>
+        <company>true</company>
+    </contact>    
+    <contact id="4">
+        <firstName>Yahoo!</firstName>
+        <email>yahoo@yahoo.com</email>
+        <phone>4083493300</phone>
+        <phoneType>home</phoneType>
+        <address>701 First Avenue, Sunnyvale CA</address>
+        <zip>94089</zip>
+        <color>0x9900FF</color>
+        <company>true</company>
+    </contact>
+    <contact id="5">
+        <firstName>Whatcha</firstName>
+        <lastName>McCollum</lastName>
+        <email>w.mccollum@fakeemail.com</email>
+        <phone>3149884735</phone>
+        <phoneType>other</phoneType>
+        <color>0xFFFF00</color>
+        <company>false</company>
+    </contact>
+</contacts>

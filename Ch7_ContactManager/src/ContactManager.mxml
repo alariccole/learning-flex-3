@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute" 
+	applicationComplete="modifyBackgroundColor()" viewSourceURL="srcview/index.html">
+	
+	<mx:Script>
+		<![CDATA[
+			public function modifyBackgroundColor():void
+			{
+				setStyle('backgroundColor', favoriteColorPicker.selectedColor);
+			}
+		]]>
+	</mx:Script>
+
+	<mx:Panel id="panel" 
+		x="10" 
+		y="10" 
+		layout="vertical" 
+		title="Contact Editor" 
+		paddingLeft="5" 
+		width="200" 
+		height="300">
+		
+		<mx:Label 
+			text="First Name" 
+			fontWeight="bold"/>
+		<mx:TextInput id="firstNameTextInput"/>
+		<mx:Label 
+			text="Last Name" 
+			fontWeight="bold"/>
+		<mx:TextInput id="lastNameTextInput"/>
+		<mx:Label id="ageLabel" 
+			text="Age" 
+			fontWeight="bold"/>
+		<mx:NumericStepper id="ageNS" 
+			maximum="120" 
+			minimum="18" />
+		<mx:CheckBox id="dogsCheckBox" 
+			label="Likes Dogs"/>
+		<mx:Label 
+			text="Favorite Color" 
+			fontWeight="bold"/>
+		<mx:ColorPicker id="favoriteColorPicker" 
+			selectedColor="0xFFFFFF"
+			change="modifyBackgroundColor()"/>
+			
+	</mx:Panel>
+	
+	<mx:Panel 
+		layout="vertical" 
+		x="227" 
+		y="10" 
+		width="200" 
+		height="300"
+		paddingLeft="5"   
+		title="Contact Details">
+		<mx:Label 
+			text="Full Name:" 
+			fontWeight="bold"/>
+		<mx:Label 
+			text="{firstNameTextInput.text} {lastNameTextInput.text}"/>
+		<mx:Label 
+			text="Age:" 
+			fontWeight="bold"/>
+		<mx:Label 
+			text="{ageNS.value} years old"/>
+		<mx:Label 
+			text="Likes Dogs:" 
+			fontWeight="bold"/>
+		<mx:Label 
+			text="{dogsCheckBox.selected}"/>
+		<mx:Label 
+			text="Favorite Color:" 
+			fontWeight="bold"/>
+		<mx:Canvas 
+			width="60" 
+			height="60" 
+			backgroundColor="{favoriteColorPicker.selectedColor}"/>
+			
+	</mx:Panel>
+
+	
+</mx:Application>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="com.oreilly.view.*" 
+	layout="absolute"  
+	applicationComplete="contactsService.send()"  viewSourceURL="srcview/index.html">
+		
+<!-- A new .css file is included here, which controls the 
+	 look and feel of most of the application.
+-->		
+	<mx:Style source="styles.css"/>
+	
+	<mx:HTTPService id="contactsService" 
+		resultFormat="e4x" 
+		url="http://greenlike.com/flex/learning/projects/contactmanager/contacts.xml" />
+	
+	<mx:Parallel id="fadeAndResize">
+		<mx:Dissolve id="dissolve"/>
+		<mx:Resize id="fastResize" duration="300"/>
+	</mx:Parallel>
+	
+	<mx:DataGrid id="contactsDataGrid"  
+		dataProvider="{contactsService.lastResult.contact}"
+		selectedIndex="0" 
+		left="10" 
+		top="10" 
+		bottom="10" 
+		width="300"
+		change="contactViewer.currentState = ''">
+		<mx:columns>
+			<mx:DataGridColumn headerText="First" dataField="firstName"/>
+			<mx:DataGridColumn headerText="Last" dataField="lastName"/>
+		</mx:columns>
+	</mx:DataGrid>
+	
+	<view:ContactViewer id="contactViewer"
+		contact="{contactsDataGrid.selectedItem}"
+		x="318" 
+		y="10"
+		resizeEffect="{fadeAndResize}"
+		horizontalScrollPolicy="off"
+		verticalScrollPolicy="off">
+	</view:ContactViewer>
+
+</mx:Application>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:yahoo="http://www.yahoo.com/astra/2006/mxml"
+	layout="absolute"  viewSourceURL="srcview/index.html">
+	
+	<yahoo:SearchService id="searchService" 
+		query="{queryTextInput.text}" />
+	
+	<mx:HBox verticalAlign="middle" defaultButton="{searchButton}" y="10" x="10">
+	
+		<mx:FormItem label="Query:">
+			<mx:TextInput id="queryTextInput"
+				fontSize="13"/>	
+		</mx:FormItem>
+	 	
+	 	<mx:Button id="searchButton"
+			label="Search" 
+			click="searchService.send()"/>
+			
+	</mx:HBox>
+		 
+
+	<!-- The results as a List -->
+	<mx:List id="resultsList"  
+		showDataTips="true" 
+		dataProvider="{searchService.lastResult}" 
+		right="10" 
+		top="74" 
+		bottom="47" 
+		left="10">
+		<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox 
+					width="100%" 
+					doubleClickEnabled="true" 
+					doubleClick="navigateToURL(new URLRequest(data.clickURL), '_blank')" 
+					verticalScrollPolicy="off" 
+					horizontalScrollPolicy="off">
+					<mx:HBox 
+						width="100%" >
+						<mx:Label 
+							text="{data.index  + 1}" 
+							width="30"/>
+						<mx:Text 
+							width="100%"  
+							text="{data.name}" 
+							fontWeight="bold"/>
+					</mx:HBox>
+					<mx:Text 
+						width="100%" 
+						height="{data.summary? 40: 0}"  
+						text="{data.summary}"/>
+				</mx:VBox>
+			</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
+	
+</mx:Application>
